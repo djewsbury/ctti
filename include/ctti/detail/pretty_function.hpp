@@ -46,7 +46,11 @@ constexpr ctti::detail::cstring value()
     #define CTTI_TYPE_PRETTY_FUNCTION_PREFIX "constexpr ctti::detail::cstring ctti::pretty_function::type() [with T = "
     #define CTTI_TYPE_PRETTY_FUNCTION_SUFFIX "]"
 #elif defined(_MSC_VER)
-    #define CTTI_TYPE_PRETTY_FUNCTION_PREFIX "struct ctti::detail::cstring __cdecl ctti::pretty_function::type<"
+    #if (_MSC_VER < 1924)       // not sure exactly when this changed in visual studio, but commentors on Github suggest around this version
+        #define CTTI_TYPE_PRETTY_FUNCTION_PREFIX "struct ctti::detail::cstring __cdecl ctti::pretty_function::type<"
+    #else
+        #define CTTI_TYPE_PRETTY_FUNCTION_PREFIX "class ctti::detail::cstring __cdecl ctti::pretty_function::type<"
+    #endif
     #define CTTI_TYPE_PRETTY_FUNCTION_SUFFIX ">(void)"
 #else
     #error "No support for this compiler."
@@ -64,7 +68,11 @@ constexpr ctti::detail::cstring value()
     #define CTTI_VALUE_PRETTY_FUNCTION_SEPARATOR "; T Value = "
     #define CTTI_VALUE_PRETTY_FUNCTION_SUFFIX "]"
 #elif defined(_MSC_VER)
-    #define CTTI_VALUE_PRETTY_FUNCTION_PREFIX "struct ctti::detail::cstring __cdecl ctti::pretty_function::value<"
+    #if (_MSC_VER < 1924)
+        #define CTTI_VALUE_PRETTY_FUNCTION_PREFIX "struct ctti::detail::cstring __cdecl ctti::pretty_function::value<"
+    #else
+        #define CTTI_VALUE_PRETTY_FUNCTION_PREFIX "class ctti::detail::cstring __cdecl ctti::pretty_function::value<"
+    #endif
     #define CTTI_VALUE_PRETTY_FUNCTION_SEPARATOR "; T Value = "
     #define CTTI_VALUE_PRETTY_FUNCTION_SUFFIX ">(void)"
 #else
